@@ -20,9 +20,9 @@ struct TPoint
 
 struct TContent
 {
-   bool occupied;
-   TContent() : occupied(false) {};
-   TContent( bool val ) : occupied(val) {};
+   bool snake;
+   TContent() : snake(false) {};
+   TContent( bool val ) : snake(val) {};
 };
 
 struct TPointComparer
@@ -68,6 +68,17 @@ private:
 
 };
 
+class CVisual
+{
+public:
+   CVisual();
+   ~CVisual();
+   void print( const TPoint point, const TContent content );
+
+private:
+
+};
+
 class CGame
 {
 public:
@@ -77,6 +88,7 @@ public:
 private:
    CGameMap map;
    CSnake snake;
+   CVisual visual;
 
 };
 

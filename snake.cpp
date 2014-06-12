@@ -18,28 +18,43 @@ bool CGameMap::checkNext( TPoint &point )
    return true;
 }
 
-void CGameMap::step( const TPoint next )
+void CGameMap::changeMap( const TPoint point, const TContent content )
 {
-   map[ next ] = TContent( true );
+   mapChanges[ point ] = content;
 }
 
-void CGameMap::step( const TPoint next, const TPoint prev )
+void CGameMap::commit()
 {
-   map[ next ] = TContent( true );
-   map[ prev ] = TContent( false );
+   for ( TGameMap::const_iterator it = mapChanges.begin();
+      it != mapChanges.end(); ++it )
+   {
+      map[ it->first ] = it->second;
+   }
+   mapChanges.clear();
 }
 
-TGameMap* CGameMap::getMap()
+void CGameMap::snakeStep( const TPoint next )
 {
-   return &map;
+   changeMap( next, TContent(true) );
+}
+
+void CGameMap::snakeStep( const TPoint next, const TPoint prev )
+{
+   changeMap( next, TContent(true) );
+   changeMap( prev, TContent(false) );
+}
+
+TGameMap* CGameMap::getMapChanges()
+{
+   return &mapChanges;
 }
 
 CSnake::CSnake( const int x, const int y )
    : direct( D_LEFT )
 {
    snake.push( TPoint( x, y ) );
-   snake.push( TPoint( x, y+1 ) );
-   snake.push( TPoint( x, y+2) );
+   snake.push( TPoint( x+1, y+1 ) );
+   snake.push( TPoint( x+3, y+2) );
 }
 
 TPoint CSnake::getNext()
@@ -79,7 +94,7 @@ TPoint CSnake::step( const TPoint point )
 CGame::CGame()
    : map( 20, 20 ), snake ( 10, 10 )
 {
-   map.step( TPoint( 10, 10 ) );
+   map.snakeStep( TPoint( 10, 10 ) );
 }
 
 int CGame::step()
@@ -90,8 +105,9 @@ int CGame::step()
    if ( map.checkNext( next ) )
    {
       TPoint old = snake.step( next );
-      map.step( next, old );
-      visual.print( map.getMap() );
+      map.snakeStep( next, old );
+      visual.print( map.getMapChanges() );
+      map.commit();
    }
 
    return retval;

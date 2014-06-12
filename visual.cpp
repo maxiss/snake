@@ -16,7 +16,7 @@ CVisual::~CVisual()
 void CVisual::print( const TPoint point, const TContent content )
 {
    char ch;
-   ::move( point.x, point.y );
+   ::move( point.y, point.x );
    if ( content.snake )
       ch = 'X';
    else
@@ -27,17 +27,17 @@ void CVisual::print( const TPoint point, const TContent content )
 
 void CVisual::refresh()
 {
+   ::move( ::LINES-1, ::COLS-1 );
    ::refresh();
 }
 
 void CVisual::print( const TGameMap* gameMap )
 {
-   ::clear();
    for ( TGameMap::const_iterator it = gameMap->begin();
       it != gameMap->end(); ++it )
    {
       print( it->first, it->second );
    }
-   ::refresh();
+   refresh();
 }
 

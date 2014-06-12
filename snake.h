@@ -15,14 +15,14 @@ enum TDirection
 struct TPoint
 {
    int x, y;
-   TPoint( int x, int y ) : x(x), y(y) {};
+   TPoint( const int x, const int y ) : x(x), y(y) {};
 };
 
 struct TContent
 {
    bool snake;
    TContent() : snake(false) {};
-   TContent( bool val ) : snake(val) {};
+   TContent( const bool val ) : snake(val) {};
 };
 
 struct TPointComparer
@@ -45,14 +45,17 @@ class CGameMap
 public:
    CGameMap( const int x, const int y );
    bool checkNext( TPoint &point );
-   void step( const TPoint next );
-   void step( const TPoint next, const TPoint prev );
-   TGameMap* getMap();
+   void changeMap( const TPoint point, const TContent content );
+   void commit();
+   void snakeStep( const TPoint next );
+   void snakeStep( const TPoint next, const TPoint prev );
+   TGameMap* getMapChanges();
 
 private:
    const int maxX;
    const int maxY;
    TGameMap map;
+   TGameMap mapChanges;
 
 };
 

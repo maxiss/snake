@@ -47,6 +47,7 @@ public:
    bool checkNext( TPoint &point );
    void step( const TPoint next );
    void step( const TPoint next, const TPoint prev );
+   TGameMap* getMap();
 
 private:
    const int maxX;
@@ -74,6 +75,8 @@ public:
    CVisual();
    ~CVisual();
    void print( const TPoint point, const TContent content );
+   void refresh();
+   void print( const TGameMap* gameMap );
 
 private:
 

@@ -29,10 +29,17 @@ void CGameMap::step( const TPoint next, const TPoint prev )
    map[ prev ] = TContent( false );
 }
 
+TGameMap* CGameMap::getMap()
+{
+   return &map;
+}
+
 CSnake::CSnake( const int x, const int y )
    : direct( D_LEFT )
 {
    snake.push( TPoint( x, y ) );
+   snake.push( TPoint( x, y+1 ) );
+   snake.push( TPoint( x, y+2) );
 }
 
 TPoint CSnake::getNext()
@@ -84,6 +91,7 @@ int CGame::step()
    {
       TPoint old = snake.step( next );
       map.step( next, old );
+      visual.print( map.getMap() );
    }
 
    return retval;

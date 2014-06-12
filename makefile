@@ -4,7 +4,7 @@ main: main.o snake.o visual.o
 	g++ main.o snake.o visual.o -lcurses -o main
 
 main.o: main.cpp snake.h
-	g++ -c main.cpp
+	g++ -c main.cpp -std=gnu++11
 
 snake: snake.cpp visual.cpp snake.h
 	g++ -c snake.cpp visual.cpp

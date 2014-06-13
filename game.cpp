@@ -30,6 +30,8 @@ CGame::CGame()
    map.snakeStep( TPoint( 10, 10 ) );
    map.snakeStep( TPoint( 10, 11 ) );
    map.snakeStep( TPoint( 10, 12 ) );
+
+   map.addFood(2, 2);
 }
 
 int CGame::step()
@@ -39,8 +41,16 @@ int CGame::step()
    TPoint next = snake.getNext();
    if ( map.checkNext( next ) )
    {
-      TPoint old = snake.step( next );
-      map.snakeStep( next, old );
+      if ( map.checkFood( next ) )
+      {
+         snake.stepAhead( next );
+         map.snakeStep( next );
+      }
+      else
+      {
+         TPoint old = snake.step( next );
+         map.snakeStep( next, old );
+      }
       visual.print( map.getMapChanges() );
       map.commit();
    }

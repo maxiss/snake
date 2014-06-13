@@ -18,6 +18,17 @@ bool CGameMap::checkNext( TPoint &point )
    return true;
 }
 
+bool CGameMap::checkFood( const TPoint point )
+{
+   bool retval = false;
+   TGameMap::iterator it = map.find( point );
+   if ( it != map.end() )
+      if ( it->second.cont == CONT_FOOD )
+         retval = true;
+
+   return retval;
+}
+
 void CGameMap::changeMap( const TPoint point, const TContent content )
 {
    mapChanges[ point ] = content;
@@ -35,13 +46,18 @@ void CGameMap::commit()
 
 void CGameMap::snakeStep( const TPoint next )
 {
-   changeMap( next, TContent(true) );
+   changeMap( next, TContent(CONT_SNAKE) );
 }
 
 void CGameMap::snakeStep( const TPoint next, const TPoint prev )
 {
-   changeMap( next, TContent(true) );
-   changeMap( prev, TContent(false) );
+   changeMap( next, TContent(CONT_SNAKE) );
+   changeMap( prev, TContent(CONT_NONE) );
+}
+
+void CGameMap::addFood( const int x, const int y )
+{
+   changeMap( TPoint(x, y), TContent( CONT_FOOD ) );
 }
 
 TGameMap* CGameMap::getMapChanges()

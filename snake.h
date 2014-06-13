@@ -20,6 +20,13 @@ enum TKey
   ,K_D = 100
 };
 
+enum EContent
+{
+   CONT_NONE = 0
+  ,CONT_SNAKE
+  ,CONT_FOOD
+};
+
 struct TPoint
 {
    int x, y;
@@ -28,9 +35,9 @@ struct TPoint
 
 struct TContent
 {
-   bool snake;
-   TContent() : snake(false) {};
-   TContent( const bool val ) : snake(val) {};
+   EContent cont;
+   TContent() : cont(CONT_NONE) {};
+   TContent( const EContent val ) : cont(val) {};
 };
 
 struct TPointComparer
@@ -53,10 +60,12 @@ class CGameMap
 public:
    CGameMap( const int x, const int y );
    bool checkNext( TPoint &point );
+   bool checkFood( const TPoint point );
    void changeMap( const TPoint point, const TContent content );
    void commit();
    void snakeStep( const TPoint next );
    void snakeStep( const TPoint next, const TPoint prev );
+   void addFood( const int x, const int y );
    TGameMap* getMapChanges();
 
 private:

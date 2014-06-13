@@ -17,10 +17,20 @@ void CVisual::print( const TPoint point, const TContent content )
 {
    char ch;
    ::move( point.y, point.x );
-   if ( content.snake )
-      ch = 'X';
-   else
-      ch = ' ';
+   switch ( content.cont )
+   {
+      case CONT_NONE:
+         ch = ' ';
+      break;
+
+      case CONT_SNAKE:
+         ch = 'X';
+      break;
+
+      case CONT_FOOD:
+         ch = 'O';
+      break;
+   };
 
    ::addch( ch );
 }

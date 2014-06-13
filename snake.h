@@ -12,6 +12,14 @@ enum TDirection
   ,D_RIGHT
 };
 
+enum TKey
+{
+   K_W = 119
+  ,K_A = 97
+  ,K_S = 115
+  ,K_D = 100
+};
+
 struct TPoint
 {
    int x, y;
@@ -62,13 +70,17 @@ private:
 class CSnake
 {
 public:
+   CSnake();
    CSnake( const int x, const int y );
    TPoint getNext();
    TPoint step( const TPoint point );
+   void stepAhead( const TPoint point );
+   void turn( int ch );
 
 private:
    TDirection direct;
    TSnake snake;
+   bool turned;
 
 };
 
@@ -90,6 +102,8 @@ class CGame
 public:
    CGame();
    int step();
+   void start();
+   bool loop;
 
 private:
    CGameMap map;

@@ -1,13 +1,13 @@
 all: main
 
 main: main.o snake.o visual.o gamemap.o game.o
-	g++ main.o snake.o visual.o gamemap.o game.o -lcurses -o main
+	g++ main.o snake.o visual.o gamemap.o game.o -lcurses -pthread -o main
 
 main.o: main.cpp snake.h
-	g++ -c main.cpp -std=gnu++11
+	g++ -c main.cpp
 
 game.o: game.cpp snake.h
-	g++ -c game.cpp
+	g++ -c game.cpp -std=gnu++11
 
 gamemap.o: gamemap.cpp snake.h
 	g++ -c gamemap.cpp

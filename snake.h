@@ -53,12 +53,15 @@ struct TPointComparer
 };
 
 typedef std::map< TPoint, TContent, TPointComparer > TGameMap;
+typedef std::vector< TContent > TGameMapVector;
 typedef std::queue< TPoint > TSnake;
 
 class CGameMap
 {
 public:
    CGameMap( const int x, const int y );
+   TContent& getContent( const int x, const int y );
+   TContent& getContent( const TPoint point );
    bool checkNext( TPoint &point );
    bool checkFood( const TPoint point );
    void changeMap( const TPoint point, const TContent content );
@@ -71,7 +74,7 @@ public:
 private:
    const int maxX;
    const int maxY;
-   TGameMap map;
+   TGameMapVector map;
    TGameMap mapChanges;
 
 };

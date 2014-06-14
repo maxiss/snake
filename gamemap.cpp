@@ -3,6 +3,18 @@
 CGameMap::CGameMap( const int x, const int y )
    : maxX(x), maxY(y)
 {
+   map.resize( maxX * maxY );
+}
+
+TContent& CGameMap::getContent( const int x, const int y )
+{
+   int index = y * maxX + x;
+   return map[ index ];
+}
+
+TContent& CGameMap::getContent( const TPoint point )
+{
+   return getContent( point.x, point.y );
 }
 
 bool CGameMap::checkNext( TPoint &point )
@@ -21,10 +33,8 @@ bool CGameMap::checkNext( TPoint &point )
 bool CGameMap::checkFood( const TPoint point )
 {
    bool retval = false;
-   TGameMap::iterator it = map.find( point );
-   if ( it != map.end() )
-      if ( it->second.cont == CONT_FOOD )
-         retval = true;
+   if ( getContent( point ).cont == CONT_FOOD )
+      retval = true;
 
    return retval;
 }
@@ -39,7 +49,7 @@ void CGameMap::commit()
    for ( TGameMap::const_iterator it = mapChanges.begin();
       it != mapChanges.end(); ++it )
    {
-      map[ it->first ] = it->second;
+      getContent( it->first ) = it->second;
    }
    mapChanges.clear();
 }

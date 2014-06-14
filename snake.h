@@ -109,13 +109,18 @@ private:
 class CVisual
 {
 public:
-   CVisual();
+   CVisual( const int widht, const int height);
    ~CVisual();
    void print( const TPoint point, const TContent content );
    void refresh();
    void print( const TGameMap* gameMap );
+   void printBorder();
 
 private:
+   const int top;
+   const int left;
+   const int width;
+   const int height;
 
 };
 

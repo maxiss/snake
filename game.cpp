@@ -22,6 +22,7 @@ struct termSaver
 
 CGame::CGame()
    : map( 20, 20 )
+   , visual( 40, 20 )
 {
    snake.stepOn( TPoint(10, 10) );
    snake.stepOn( TPoint(10, 11) );

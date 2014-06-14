@@ -61,6 +61,7 @@ class CGameMap
 public:
    CGameMap( const int x, const int y );
    TContent& getContent( const int x, const int y );
+   TContent& getContent_ext( const int x, const int y );
    TContent& getContent( const TPoint point );
    bool checkNext( TPoint &point );
    bool checkFood( const TPoint point );
@@ -69,6 +70,8 @@ public:
    void snakeStep( const TPoint next );
    void snakeStep( const TPoint next, const TPoint prev );
    void addFood( const int x, const int y );
+   void addFood();
+   void decEmptyPoints( const int cnt );
    TGameMap* getMapChanges();
 
 private:
@@ -76,6 +79,7 @@ private:
    const int maxY;
    TGameMapVector map;
    TGameMap mapChanges;
+   int emptyPoints;
 
 };
 

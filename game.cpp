@@ -31,7 +31,9 @@ CGame::CGame()
    map.snakeStep( TPoint( 10, 11 ) );
    map.snakeStep( TPoint( 10, 12 ) );
 
-   map.addFood(2, 2);
+   map.decEmptyPoints( 3 );
+
+   map.addFood();
 }
 
 int CGame::step()
@@ -45,6 +47,7 @@ int CGame::step()
       {
          snake.stepAhead( next );
          map.snakeStep( next );
+         map.addFood();
       }
       else
       {

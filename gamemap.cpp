@@ -4,12 +4,12 @@
 CGameMap::CGameMap( const int x, const int y )
    : maxX(x), maxY(y), emptyPoints(x * y)
 {
-   map.resize( maxX * maxY );
+   map.resize( (maxX + 1) * (maxY + 1) );
 }
 
 TContent& CGameMap::getContent( const int x, const int y )
 {
-   int index = y * maxX + x;
+   int index = y * (maxX + 1) + x;
    return map[ index ];
 }
 
@@ -95,9 +95,9 @@ void CGameMap::addFood()
 {
    int r = rand() % emptyPoints;
    int i = 0;
-   for (int x = 0; x < maxX; x++)
+   for (int x = 0; x <= maxX; x++)
    {
-      for (int y = 0; y < maxY; y++)
+      for (int y = 0; y <= maxY; y++)
       {
          if (getContent_ext(x, y).cont == CONT_NONE)
          {

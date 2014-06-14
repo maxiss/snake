@@ -24,7 +24,10 @@ enum EContent
 {
    CONT_NONE = 0
   ,CONT_SNAKE
+  ,CONT_HEAD
+  ,CONT_TAIL
   ,CONT_FOOD
+  ,CONT_COLLISION
 };
 
 struct TPoint
@@ -63,12 +66,13 @@ public:
    TContent& getContent( const int x, const int y );
    TContent& getContent_ext( const int x, const int y );
    TContent& getContent( const TPoint point );
+   bool checkCollision( const TPoint point );
    bool checkNext( TPoint &point );
    bool checkFood( const TPoint point );
    void changeMap( const TPoint point, const TContent content );
    void commit();
-   void snakeStep( const TPoint next );
-   void snakeStep( const TPoint next, const TPoint prev );
+   void snakeStepOn( const TPoint next, const TPoint head );
+   void snakeStepOut( const TPoint out, const TPoint tail );
    void addFood( const int x, const int y );
    void addFood();
    void decEmptyPoints( const int cnt );
@@ -89,8 +93,10 @@ public:
    CSnake();
    CSnake( const int x, const int y );
    TPoint getNext();
-   TPoint step( const TPoint point );
-   void stepAhead( const TPoint point );
+   void stepOn( const TPoint point );
+   TPoint stepOut();
+   TPoint getHead();
+   TPoint getTail();
    void turn( int ch );
 
 private:
@@ -127,11 +133,4 @@ private:
    CVisual visual;
 
 };
-
-
-
-
-
-
-
 

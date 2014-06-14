@@ -23,17 +23,19 @@ struct termSaver
 CGame::CGame()
    : map( 20, 20 )
 {
-   snake.stepAhead( TPoint(10, 10) );
-   snake.stepAhead( TPoint(10, 11) );
-   snake.stepAhead( TPoint(10, 12) );
+   snake.stepOn( TPoint(10, 10) );
+   snake.stepOn( TPoint(10, 11) );
+   snake.stepOn( TPoint(10, 12) );
 
-   map.snakeStep( TPoint( 10, 10 ) );
-   map.snakeStep( TPoint( 10, 11 ) );
-   map.snakeStep( TPoint( 10, 12 ) );
+   map.changeMap( TPoint(10, 10), TContent(CONT_TAIL) );
+   map.changeMap( TPoint(10, 11), TContent(CONT_SNAKE) );
+   map.changeMap( TPoint(10, 12), TContent(CONT_HEAD) );
 
    map.decEmptyPoints( 3 );
 
    map.addFood();
+   visual.print( map.getMapChanges() );
+   map.commit();
 }
 
 int CGame::step()
@@ -45,18 +47,34 @@ int CGame::step()
    {
       if ( map.checkFood( next ) )
       {
-         snake.stepAhead( next );
-         map.snakeStep( next );
+         TPoint head = snake.getHead();
+         snake.stepOn( next );
+         map.snakeStepOn( next, head );
          map.addFood();
       }
       else
       {
-         TPoint old = snake.step( next );
-         map.snakeStep( next, old );
+         TPoint head = snake.getHead();
+         snake.stepOn( next );
+         TPoint out = snake.stepOut();
+         TPoint tail = snake.getTail();
+         map.snakeStepOut( out, tail );
+         map.snakeStepOn( next, head );
       }
-      visual.print( map.getMapChanges() );
-      map.commit();
    }
+   else
+   {
+      TPoint head = snake.getHead();
+      snake.stepOn( next );
+      TPoint out = snake.stepOut();
+      TPoint tail = snake.getTail();
+      map.snakeStepOut( out, tail );
+      map.changeMap( head, TContent( CONT_SNAKE ) );
+      map.changeMap( next, TContent( CONT_COLLISION ) );
+      loop = false;
+   }
+   visual.print( map.getMapChanges() );
+   map.commit();
 
    return retval;
 }

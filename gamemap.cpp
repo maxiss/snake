@@ -27,6 +27,15 @@ TContent& CGameMap::getContent( const TPoint point )
    return getContent( point.x, point.y );
 }
 
+bool CGameMap::checkCollision( const TPoint point )
+{
+   bool retval = false;
+   if ( getContent( point ).cont == CONT_SNAKE )
+      retval = true;
+
+   return retval;
+}
+
 bool CGameMap::checkNext( TPoint &point )
 {
    if ( point.x < 0 )
@@ -37,7 +46,7 @@ bool CGameMap::checkNext( TPoint &point )
       point.y = maxY;
    if ( point.y > maxY )
       point.y = 0;
-   return true;
+   return !checkCollision( point );
 }
 
 bool CGameMap::checkFood( const TPoint point )
@@ -64,15 +73,16 @@ void CGameMap::commit()
    mapChanges.clear();
 }
 
-void CGameMap::snakeStep( const TPoint next )
+void CGameMap::snakeStepOn( const TPoint next, const TPoint head )
 {
-   changeMap( next, TContent(CONT_SNAKE) );
+   changeMap( next, TContent(CONT_HEAD) );
+   changeMap( head, TContent(CONT_SNAKE) );
 }
 
-void CGameMap::snakeStep( const TPoint next, const TPoint prev )
+void CGameMap::snakeStepOut( const TPoint out, const TPoint tail )
 {
-   changeMap( next, TContent(CONT_SNAKE) );
-   changeMap( prev, TContent(CONT_NONE) );
+   changeMap( out,  TContent(CONT_NONE) );
+   changeMap( tail, TContent(CONT_TAIL) );
 }
 
 void CGameMap::addFood( const int x, const int y )

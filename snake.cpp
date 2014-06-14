@@ -38,19 +38,27 @@ TPoint CSnake::getNext()
    return retval;
 }
 
-TPoint CSnake::step( const TPoint point )
-{
-   TPoint retval = snake.front();
-   stepAhead( point );
-   snake.pop();
-
-   return retval;
-}
-
-void CSnake::stepAhead( const TPoint point )
+void CSnake::stepOn( const TPoint point )
 {
    snake.push( point );
    turned = false;
+}
+
+TPoint CSnake::stepOut()
+{
+   TPoint retval = snake.front();
+   snake.pop();
+   return retval;
+}
+
+TPoint CSnake::getHead()
+{
+   return snake.back();
+}
+
+TPoint CSnake::getTail()
+{
+   return snake.front();
 }
 
 void CSnake::turn( const int ch )

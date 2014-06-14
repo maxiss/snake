@@ -16,7 +16,7 @@ CVisual::~CVisual()
 void CVisual::print( const TPoint point, const TContent content )
 {
    char ch;
-   ::move( point.y, point.x );
+   ::move( point.y, point.x*2 );
    switch ( content.cont )
    {
       case CONT_NONE:
@@ -24,14 +24,27 @@ void CVisual::print( const TPoint point, const TContent content )
       break;
 
       case CONT_SNAKE:
-         ch = 'X';
+         ch = 'O';
+      break;
+
+      case CONT_HEAD:
+         ch = '@';
+      break;
+
+      case CONT_TAIL:
+         ch = 'o';
       break;
 
       case CONT_FOOD:
-         ch = 'O';
+         ch = 'A';
+      break;
+
+      case CONT_COLLISION:
+         ch = 'X';
       break;
    };
 
+   ::addch( ch );
    ::addch( ch );
 }
 

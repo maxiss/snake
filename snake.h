@@ -115,6 +115,7 @@ public:
    void refresh();
    void print( const TGameMap* gameMap );
    void printBorder();
+   void printCount( const int count );
 
 private:
    const int top;
@@ -136,6 +137,7 @@ private:
    CGameMap map;
    CSnake snake;
    CVisual visual;
+   int count;
 
 };
 

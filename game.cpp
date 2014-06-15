@@ -23,6 +23,7 @@ struct termSaver
 CGame::CGame()
    : map( 20, 20 )
    , visual( 40, 20 )
+   , count(0)
 {
    snake.stepOn( TPoint(10, 10) );
    snake.stepOn( TPoint(10, 11) );
@@ -35,6 +36,7 @@ CGame::CGame()
    map.decEmptyPoints( 3 );
 
    map.addFood();
+   visual.printCount( count );
    visual.print( map.getMapChanges() );
    map.commit();
 }
@@ -48,6 +50,8 @@ int CGame::step()
    {
       if ( map.checkFood( next ) )
       {
+         count++;
+         visual.printCount( count );
          TPoint head = snake.getHead();
          snake.stepOn( next );
          map.snakeStepOn( next, head );

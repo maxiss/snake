@@ -94,3 +94,9 @@ void CVisual::printBorder()
    }
 }
 
+void CVisual::printCount( const int count )
+{
+   ::move( 0, width+10 );
+   ::printw( "%5d", count );
+}
+
